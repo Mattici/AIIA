@@ -6,7 +6,8 @@ from FrontalLobe import *
 ### could hold possible context for next line
 
 class Understanding(object):
-    def __init__(self, s='', command='', class_name='', system_command='', plural=False, og_class_name='', for_context=None):
+    def __init__(self, s='', command='', class_name='', system_command='', plural=False, og_class_name='',
+                 for_context=None, container = ''):
         self.s = s
         self.command = command
         self.class_name = class_name
@@ -15,11 +16,13 @@ class Understanding(object):
         self.og_class_name = og_class_name
         if for_context is None:
             self.for_context = []
+        self.container = container
 
     def to_string(self):
         print('Sentence: ' + self.s)
         print('Command: ' + self.command)
         print('Class Name: ' + self.class_name)
+        print('Container: ' + self.container)
         print('Plural: ' + str(self.plural))
         print('OG Class Name: ' + self.og_class_name)
         print('Context:\n')
@@ -32,39 +35,36 @@ class Understanding(object):
 
     def understand(self, bot):
         h = bot.hippocampus
-        #fl = bot.frontal_lobe
         w = bot.wernickes_area
-
-        # if self.s contain context identifier, execute_context
         u_stack = w.u_stack
+
+        # could simplify to if has context clue, update understanding values then send to frontal lobe
+
         self.get_command(h)
         if h.has_context_clue(self.s): #### check wernickes area for short term memory (conversation context)
-            # could slide in an again conditional to set command if contains again.
             prev_u = u_stack.pop()
             self.class_name = prev_u.class_name
-            #self.plural = prev_u.plural
+            self.container = prev_u.container
+            self.plural = prev_u.plural
             if self.command == 'remove':
+                t = []
                 for thing in prev_u.for_context:
-                    s = 'remove_' + self.class_name + '_from_meta'
+                    s = 'remove_' + self.class_name + '_from_' + self.container
                     f = getattr(hf, s)
-                    t = f(thing.name)
+                    t.append(f(thing.name))
             elif self.command == 'view':
+                t = []
                 for thing in prev_u.for_context:
+                    # prev_u.to_string()
+                    t.append(thing)
                     thing.to_string()
             elif self.command == 'change':
+                t = []
                 for thing in prev_u.for_context:
-                    s = 'change_' + self.class_name + '_in_meta'
+                    s = 'change_' + self.class_name + '_in_' + self.container
                     f = getattr(hf, s)
-                    t = f(thing.name)
-
-
+                    t.append(f(thing.name))
             self.for_context = prev_u.for_context
-            #u_stack.append(t)
-
-
-
-
-
         # might need to be put i else statement
         else:
             self.get_class_name(h=h)
@@ -74,6 +74,8 @@ class Understanding(object):
 
         u_stack.append(self) ## adds understanding to wernickes area. Make sure to save bots brain (sleep) to
         # bot.
+
+
     def send_to_frontal_lobe(self, u, bot):
         fl = bot.frontal_lobe
         h = bot.hippocampus
@@ -124,6 +126,7 @@ class Understanding(object):
                     if word == j:
                         self.command = i
 
+
     def get_class_name(self, h):
         #h = load_the_hippocampus_from_meta()
         sentence = self.s
@@ -136,6 +139,14 @@ class Understanding(object):
                     if word == j:
                         self.class_name = i
                         self.og_class_name = word
+        if self.class_name == 'ingredient':
+            self.container = 'pantry'
+        elif self.class_name == 'recipe':
+            self.container = 'cookbook'
+        elif self.class_name == 'assignment':
+            self.container = 'agenda'
+        elif self.class_name == 'courselist':
+            self.container = 'semesters'
 
     def get_plural_bool(self):
         s = self.og_class_name

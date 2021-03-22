@@ -1,10 +1,12 @@
 import sys
+from datetime import datetime
 
 from HelperFunctions import *
 from HippocampusClass import Hippocampus
 from FrontalLobe import FrontalLobe
 from UnderstandingClass import Understanding
 from WernickesAreaClass import WernickesArea
+from UserClass import User
 
 
 class Bot(object):

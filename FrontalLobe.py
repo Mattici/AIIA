@@ -13,8 +13,18 @@ class FrontalLobe(object):
         plural = u.plural
         system_command = u.system_command
         og_class_name = u.og_class_name
+        container = u.container
+        # if class_name == 'ingredient':
+        #     container = 'pantry'
+        # elif class_name == 'recipe':
+        #     container = 'cookbook'
+        # elif class_name == 'assignment':
+        #     container = 'agenda'
+        # elif class_name == 'courselist':
+        #     container = 'semesters'
+
         if command == 'add':
-            s = 'add_' + class_name + '_to_meta'
+            s = 'add_new_' + class_name + '_to_' + container
             add_class = getattr(hf, s)
             l = []
             if not plural:
@@ -27,41 +37,36 @@ class FrontalLobe(object):
                     print('\n')
             return l
 
+
         elif command == 'view':
-            print('\nHere are your ' + class_name + 's:\n')
-            a = []
-            s = 'get_all_' + class_name + 's_as_list'
-            list_getter = getattr(hf, s)
-            l = list_getter()
-            print('----------------------------------------------')
-            for thing in l:
-                print(thing.name)
-                a.append(thing)
-            print('----------------------------------------------')
-            if not plural:
+            f = 'return_' + container
+            loader = getattr(hf, f)
+            a = loader() # return list set to whole container
+            s = container + '_dump'
+            dumper = getattr(hf, s)
+            dumper() # dump list
+            if not plural: # specify the class_name in singular
                 print('Which ' + class_name + ' would you like to view?\n')
                 t = input()
-                s = 'load_' + class_name + '_from_meta'
+                s = 'load_' + class_name + '_from_' + container
                 thing_viewer = getattr(hf, s)
                 thing = thing_viewer(t)
-                a = []
+                a = [] # reset return list
                 a.append(thing)
                 thing.to_string()
             return a
 
+
         elif command == 'remove':
-            print('Here are your current ' + class_name + 's:\n')
-            s = 'get_all_' + class_name + 's_as_list'
-            list_getter = getattr(hf, s)
-            print('----------------------------------------------')
-            l = list_getter()
+
+            s = container + '_dump'
+            dumper = getattr(hf, s)
+            dumper()  # dump list
+
             a = []
-            for thing in l:
-                print(thing.name)
-            print('----------------------------------------------')
             if not plural:
                 g = input('Which ' + class_name + ' would you like to remove?\n')
-                s = 'remove_' + class_name + '_from_meta'
+                s = 'remove_' + class_name + '_from_' + container
                 remove_class = getattr(hf, s)
                 a.append(remove_class(g))
 
@@ -69,32 +74,40 @@ class FrontalLobe(object):
                 x = int(input('How many ' + class_name + 's would you like to remove?\n'))
                 for i in range(x):
                     g = input('Which ' + class_name + 's would you like to remove?\n')
-                    s = 'remove_' + class_name + '_from_meta'
+                    s = 'remove_' + class_name + '_from_' + container
                     remove_class = getattr(hf, s)
                     a.append(remove_class(g))
-
             return a
+
+
+
+
         elif command == 'change':
+            s = container + '_dump'
+            dumper = getattr(hf, s)
+            dumper()  # dump list
+
+
             a = []
-            print('\nHere are your ' + class_name + 's:\n')
-            s = 'get_all_' + class_name + 's_as_list'
-            list_getter = getattr(hf, s)
-            print('----------------------------------------------')
-            l = list_getter()
-            for thing in l:
-                print(thing.name)
-            print('\n')
-            print('----------------------------------------------')
+            # print('\nHere are your ' + class_name + 's:\n')
+            # s = 'get_all_' + class_name + 's_as_list'
+            # list_getter = getattr(hf, s)
+            # print('----------------------------------------------')
+            # l = list_getter()
+            # for thing in l:
+            #     print(thing.name)
+            # print('\n')
+            # print('----------------------------------------------')
             og = input('Which ' + class_name + ' would you like to change? ')
 
             if class_name == 'ingredient':
-                con = hf.change_ingredient_in_meta(og)
+                ret = hf.change_ingredient_in_pantry(og)
 
             elif class_name == 'recipe':
-                con = hf.change_recipe_in_meta(og)
+                ret = hf.change_recipe_in_meta(og)
 
             elif class_name == 'assignment':
-                con = hf.change_assignment_in_meta(og)
+                ret = hf.change_assignment_in_meta(og)
 
 
             elif class_name == 'courselist':
@@ -102,8 +115,8 @@ class FrontalLobe(object):
                 for i in l:
                     print(i)
                 member = input('\n')
-                con = hf.change_courselist_in_meta(og, member)
-            return con
+                ret = hf.change_courselist_in_meta(og, member)
+            return ret
 
         elif system_command == 'help':
             hf.load_bot_from_meta('Mia')

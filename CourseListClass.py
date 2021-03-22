@@ -10,8 +10,11 @@ class CourseList(object):
 
     def to_string(self):
 
-        print(self.name + ":\n")
         print('----------------------------------------------')
+
+        print(self.name + ":")
+        print('----------------------------------------------')
+
         for c in self.courses:
             print(c)
         print('----------------------------------------------\n')
