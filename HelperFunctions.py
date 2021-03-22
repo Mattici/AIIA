@@ -1,11 +1,10 @@
-import os
 import inflect
-from IngredientClass import Ingredient
-from RecipeClass import Recipe
-from AssignmentClass import Assignment
-from CourseListClass import CourseList
 import pickle
 import os
+from IngredientClass import Ingredient
+from RecipeClass import Recipe
+from Classes.AssignmentClass import Assignment
+from CourseListClass import CourseList
 
 
 root = os.getcwd()
@@ -23,7 +22,7 @@ def add_ingredient_to_meta():
         fiber=float(input('How much fiber? ')),
         sugar=float(input('How much sugar? ')), protein=float(input('How much protein? '))
     )
-    filename = root + '/Ingredients/' + str(i.name)
+    filename = root + '/Meta/Ingredients/' + str(i.name)
     pickle_out = open(filename, 'wb')
     pickle.dump(i, pickle_out)
     pickle_out.close()
@@ -50,7 +49,7 @@ def add_recipe_to_meta():
         r.fiber += x * ingredient.fiber
         r.sugar += x * ingredient.sugar
         r.protein += x * ingredient.protein
-    filename = root + '/Recipes/' + r.name
+    filename = root + '/Meta/Recipes/' + r.name
     pickle_out = open(filename, 'wb')
     pickle.dump(r, pickle_out)
     pickle_out.close()
@@ -64,7 +63,7 @@ def add_assignment_to_meta():
         description=str(input('What do you have to do for this assignment? ')),
         due_date=str(input('When is it due (example: Monday April 23)? '))
     )
-    filename = root + '/Assignments/' + a.name
+    filename = root + '/Meta/Assignments/' + a.name
     pickle_out = open(filename, 'wb')
     pickle.dump(a, pickle_out)
     pickle_out.close()
@@ -76,7 +75,7 @@ def add_courselist_to_meta():
     cs = CourseList(
         name=str(input('What is the name of the course list? (example, Spring2021)? ')),
     )
-    filename = root + '/CourseLists/' + cs.name
+    filename = root + '/Meta/CourseLists/' + cs.name
     pickle_out = open(filename, 'wb')
     pickle.dump(cs, pickle_out)
     pickle_out.close()
@@ -86,42 +85,42 @@ def add_courselist_to_meta():
 
 ####################################### Loads #######################################
 def load_ingredient_from_meta(ingredient):
-    filename = root + '/Ingredients/' + ingredient
+    filename = root + '/Meta/Ingredients/' + ingredient
     pickle_in = open(filename, 'rb')
     i = pickle.load(pickle_in)
     return i
 
 
 def load_recipe_from_meta(recipe):
-    filename = root + '/Recipes/' + recipe
+    filename = root + '/Meta/Recipes/' + recipe
     pickle_in = open(filename, 'rb')
     r = pickle.load(pickle_in)
     return r
 
 
 def load_assignment_from_meta(assignment):
-    filename = root + '/Assignments/' + assignment
+    filename = root + '/Meta/Assignments/' + assignment
     pickle_in = open(filename, 'rb')
     a = pickle.load(pickle_in)
     return a
 
 
 def load_courselist_from_meta(course):
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/CourseLists/' + course
+    filename = root + '/Meta/CourseLists/' + course
     pickle_in = open(filename, 'rb')
     cs = pickle.load(pickle_in)
     return cs
 
 
-def load_the_hippocampus_from_meta():
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/OriginalBrainFiles/TheHippocampus'
-    pickle_in = open(filename, 'rb')
-    h = pickle.load(pickle_in)
-    return h
+# def load_the_hippocampus_from_meta():
+#     filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/OriginalBrainFiles/TheHippocampus'
+#     pickle_in = open(filename, 'rb')
+#     h = pickle.load(pickle_in)
+#     return h
 
 
 def load_bot_from_meta(bot):
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Bots/' + bot
+    filename = root + '/Meta/Bots/' + bot
     pickle_in = open(filename, 'rb')
     b = pickle.load(pickle_in)
     return b
@@ -129,7 +128,7 @@ def load_bot_from_meta(bot):
 
 ####################################### Get Lists #######################################
 def get_all_ingredients_as_list():
-    directory = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Ingredients/'
+    directory = root + '/Meta/Ingredients/'
     l = []
     for entry in os.scandir(directory):
         l.append(load_ingredient_from_meta(str(entry).strip("<>").split()[1].strip("'")))
@@ -137,7 +136,7 @@ def get_all_ingredients_as_list():
 
 
 def get_all_recipes_as_list():
-    directory = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Recipes/'
+    directory = root + '/Meta/Recipes/'
     l = []
     for entry in os.scandir(directory):
         l.append(load_recipe_from_meta(str(entry).strip("<>").split()[1].strip("'")))
@@ -145,7 +144,7 @@ def get_all_recipes_as_list():
 
 
 def get_all_assignments_as_list():
-    directory = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Assignments/'
+    directory = root + '/Meta/Assignments/'
     l = []
     for entry in os.scandir(directory):
         l.append(load_assignment_from_meta(str(entry).strip("<>").split()[1].strip("'")))
@@ -153,7 +152,7 @@ def get_all_assignments_as_list():
 
 
 def get_all_courselists_as_list():
-    directory = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/CourseLists/'
+    directory = root + '/Meta/CourseLists/'
     l = []
     for entry in os.scandir(directory):
         l.append(load_courselist_from_meta(str(entry).strip("<>").split()[1].strip("'")))
@@ -164,28 +163,28 @@ def get_all_courselists_as_list():
 
 
 def remove_ingredient_from_meta(name):
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Ingredients/' + name
+    filename = root + '/Meta/Ingredients/' + name
     copy = load_ingredient_from_meta(name)
     os.remove(filename)
     return copy
 
 
 def remove_recipe_from_meta(name):
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Recipes/' + name
+    filename = root + '/Meta/Recipes/' + name
     copy = load_recipe_from_meta(name)
     os.remove(filename)
     return copy
 
 
 def remove_assignment_from_meta(name):
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Assignments/' + name
+    filename = root + '/Meta/Assignments/' + name
     copy = load_assignment_from_meta(name)
     os.remove(filename)
     return copy
 
 
 def remove_courselist_from_meta(name):
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/CourseLists/' + name
+    filename = root + '/Meta/CourseLists/' + name
     copy = load_courselist_from_meta(name)
     os.remove(filename)
     return copy
@@ -233,7 +232,7 @@ def change_ingredient_in_meta(ingredient):
         elif member == 'protein':
             new_i.protein = new_data
     remove_ingredient_from_meta(og)
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Ingredients/' + new_i.name
+    filename = root + '/Meta/Ingredients/' + new_i.name
     pickle_out = open(filename, 'wb')
     pickle.dump(new_i, pickle_out)
     pickle_out.close()
@@ -264,7 +263,7 @@ def change_recipe_in_meta(recipe):  # og, member
         elif x == 'changing':
             return new_r.alter_ingredient_of_recipe(i)
 
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Recipes/' + new_r.name
+    filename = root + '/Meta/Recipes/' + new_r.name
     pickle_out = open(filename, 'wb')
     pickle.dump(new_r, pickle_out)
     pickle_out.close()
@@ -291,7 +290,7 @@ def change_assignment_in_meta(assignment):
     elif member == 'description':
         new_a.description = new_data
     remove_assignment_from_meta(og)
-    filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Assignments/' + new_a.name
+    filename = root + '/Meta/Assignments/' + new_a.name
     pickle_out = open(filename, 'wb')
     pickle.dump(new_a, pickle_out)
     pickle_out.close()
@@ -305,7 +304,7 @@ def change_courselist_in_meta(courselist, member):
     if member == 'name':
         new_cs.name = input('What is the new name?\n')
         remove_courselist_from_meta(og)
-        filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/CourseLists/' + new_cs.name
+        filename = root + '/Meta/CourseLists/' + new_cs.name
         pickle_out = open(filename, 'wb')
         pickle.dump(new_cs, pickle_out)
         pickle_out.close()

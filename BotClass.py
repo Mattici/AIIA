@@ -1,7 +1,5 @@
 import sys
 
-from datetime import datetime
-
 from HelperFunctions import *
 from HippocampusClass import Hippocampus
 from FrontalLobe import FrontalLobe

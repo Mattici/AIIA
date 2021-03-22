@@ -1,5 +1,3 @@
-from HelperFunctions import *
-
 class WernickesArea(object):
 
     def __init__(self):
