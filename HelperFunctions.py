@@ -5,6 +5,7 @@ from IngredientClass import Ingredient
 from RecipeClass import Recipe
 from AssignmentClass import Assignment
 from CourseListClass import CourseList
+from UserClass import User
 
 root = os.getcwd()
 
@@ -60,6 +61,11 @@ def add_new_recipe_to_cookbook():
 
 
 def add_new_assignment_to_agenda():
+    semesters_dump()
+    sem = input('Which semester is this assignment for?')
+    s = load_courselist_from_semesters(sem)
+    for c in s.courses:
+        print(c)
     user = load_current_user()
     a = Assignment(
         course=str(input('What course is this for? ')),
@@ -119,10 +125,9 @@ def load_assignment_from_agenda(assignment):
 def load_courselist_from_semesters(courselist):
     user = load_current_user()
     for cs in user.semesters:
-        if cs.name == courselist:
+        if courselist == cs.name:
             return cs
-        else:
-            print(courselist + ' is not one of your semesters')
+    print(courselist + ' is not one of your semesters')
 
 
 ####################################### Get Lists #######################################
@@ -400,8 +405,21 @@ def is_plural(s):
 ####################################### Users/Bots #######################################
 
 
+def new_user():
+    user = User()
+    user.save_user_data()
+    print('Switched ' + user.name + ' to current user')
+
+
+def load_user_from_meta(user):
+    filename = root + '/UserMeta/' + user
+    pickle_in = open(filename, 'rb')
+    u = pickle.load(pickle_in)
+    return u
+
+
 def load_bot_from_meta(bot):
-    filename = root + '/Meta/Bots/' + bot
+    filename = root + '/BotMeta/' + bot
     pickle_in = open(filename, 'rb')
     b = pickle.load(pickle_in)
     return b
@@ -414,13 +432,6 @@ def load_current_user():
     return u
 
 
-def load_user_from_meta(user):
-    filename = root + '/UserMeta/' + user
-    pickle_in = open(filename, 'rb')
-    u = pickle.load(pickle_in)
-    return u
-
-
 def set_current_user(user):
     filename = root + '/CurrentUser'
     pickle_out = open(filename, 'wb')
@@ -428,3 +439,18 @@ def set_current_user(user):
     pickle_out.close()
 
     return user
+
+
+def load_current_bot():
+    filename = root + '/CurrentBot'
+    pickle_in = open(filename, 'rb')
+    b = pickle.load(pickle_in)
+    return b
+
+
+def set_current_bot(bot):
+    filename = root + '/CurrentBot'
+    pickle_out = open(filename, 'wb')
+    pickle.dump(bot, pickle_out)
+    pickle_out.close()
+    return bot

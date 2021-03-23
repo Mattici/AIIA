@@ -10,11 +10,11 @@ if __name__ == '__main__':
 
     ######### left at working on change container methods in helperfunctions
 
-    name = name = input('Who am I helping?\n')
-    user = load_user_from_meta(name)
-    set_current_user(user)
+    # name = name = input('Who am I helping?\n')
+    # user = load_user_from_meta(name)
+    # set_current_user(user)
 
-
+    new_user()
 
     mia = load_bot_from_meta('Mia')
     mia.user_request()

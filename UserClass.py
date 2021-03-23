@@ -1,12 +1,13 @@
 import pickle
 
 import os
-from HelperFunctions import set_current_user
+# from HelperFunctions import set_current_user
+import HelperFunctions as hf
 
 
 class User(object):
 
-    def __init__(self, name='', pantry=None, cookbook=None, agenda=None, semesters=None):
+    def __init__(self, name=input('What is your name?\n'), pantry=None, cookbook=None, agenda=None, semesters=None):
         self.name = name
 
         if pantry is None:
@@ -60,4 +61,4 @@ class User(object):
         pickle_out = open(filename, 'wb')
         pickle.dump(self, pickle_out)
         pickle_out.close()
-        set_current_user(self)
+        hf.set_current_user(self)

@@ -37,7 +37,10 @@ class Bot(object):
 
     def sleep(self):
         ## bot sleeps on all info its gathered to learn
-        filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Bots/' + self.name
+        root = os.getcwd()
+        filename = root + '/Bots/' + self.name
         pickle_out = open(filename, 'wb')
         pickle.dump(self, pickle_out)
         pickle_out.close()
+
+
