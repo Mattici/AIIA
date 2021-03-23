@@ -3,11 +3,10 @@ import nltk
 from HelperFunctions import *
 from FrontalLobe import *
 
-### could hold possible context for next line
 
 class Understanding(object):
     def __init__(self, s='', command='', class_name='', system_command='', plural=False, og_class_name='',
-                 for_context=None, container = ''):
+                 for_context=None, container=''):
         self.s = s
         self.command = command
         self.class_name = class_name
@@ -38,10 +37,8 @@ class Understanding(object):
         w = bot.wernickes_area
         u_stack = w.u_stack
 
-        # could simplify to if has context clue, update understanding values then send to frontal lobe
-
         self.get_command(h)
-        if h.has_context_clue(self.s): #### check wernickes area for short term memory (conversation context)
+        if h.has_context_clue(self.s):  #### check wernickes area for short term memory (conversation context)
             prev_u = u_stack.pop()
             self.class_name = prev_u.class_name
             self.container = prev_u.container
@@ -72,16 +69,15 @@ class Understanding(object):
             self.get_system_commands(h=h)
             self.send_to_frontal_lobe(u=self, bot=bot)
 
-        u_stack.append(self) ## adds understanding to wernickes area. Make sure to save bots brain (sleep) to
+        u_stack.append(self)  ## adds understanding to wernickes area. Make sure to save bots brain (sleep) to
         # bot.
-
 
     def send_to_frontal_lobe(self, u, bot):
         fl = bot.frontal_lobe
         h = bot.hippocampus
         l = []
         if self.class_name != '' and self.command != '':  # knows command and class_name
-            l = fl.execute_function(u) # l is list of context items
+            l = fl.execute_function(u)  # l is list of context items
             self.for_context = l
         elif self.class_name == '' and self.command != '':  # knows command but not class_name
             print('I know that want me to ' + self.command +
@@ -91,7 +87,7 @@ class Understanding(object):
             self.get_plural_bool()
             l = fl.execute_function(u)
             self.for_context = l
-        elif self.class_name != '' and self.command == '': # knows class_name but not command
+        elif self.class_name != '' and self.command == '':  # knows class_name but not command
             self.s = input('What would you like to do with this ' + self.class_name + ' ?\n')
             self.get_command(h)
             l = fl.execute_function(u)
@@ -103,11 +99,6 @@ class Understanding(object):
             h.to_string()
 
         self.for_context = l
-
-        # system commands (exit, help)
-
-        # unsure what to do
-        # command == '' and/or class_name == ''
 
     def get_verbs(self):
         l = nltk.word_tokenize(self.s)
@@ -126,9 +117,8 @@ class Understanding(object):
                     if word == j:
                         self.command = i
 
-
     def get_class_name(self, h):
-        #h = load_the_hippocampus_from_meta()
+        # h = load_the_hippocampus_from_meta()
         sentence = self.s
         l = nltk.word_tokenize(sentence)
         for word in l:
@@ -153,7 +143,7 @@ class Understanding(object):
         self.plural = is_plural(s)
 
     def get_system_commands(self, h):
-        #h = load_the_hippocampus_from_meta()
+        # h = load_the_hippocampus_from_meta()
         sentence = self.s
         l = nltk.word_tokenize(sentence)
         for word in l:

@@ -6,8 +6,6 @@ from HippocampusClass import Hippocampus
 from FrontalLobe import FrontalLobe
 from UnderstandingClass import Understanding
 from WernickesAreaClass import WernickesArea
-from UserClass import User
-
 
 class Bot(object):
 
@@ -30,15 +28,10 @@ class Bot(object):
     def user_request(self):
         print('\nHow may I help you? \n')
         for line in sys.stdin:
-            # for u in self.wernickes_area.u_stack:
-            #     u.to_string()
             line = line.rstrip().lower()
             u = Understanding(s=line)
             u.understand(bot=self)
-            # for u in self.wernickes_area.u_stack:
-            #     u.to_string()
-            # u_stack.append(u)
-            # u.to_string()
+
 
             print('\nHow else can I help you?\n')
 
@@ -48,5 +41,3 @@ class Bot(object):
         pickle_out = open(filename, 'wb')
         pickle.dump(self, pickle_out)
         pickle_out.close()
-
-    # def to_string(self):

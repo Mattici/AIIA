@@ -1,5 +1,3 @@
-import pickle
-
 
 class Ingredient(object):
     def __init__(self, name='', serving_size=0.0, cal=0.0, tot_fat=0.0, sat_fat=0.0,
@@ -31,10 +29,3 @@ class Ingredient(object):
         print('Sugar: ' + str(self.sugar))
         print('Protein: ' + str(self.protein))
         print('----------------------------------------------')
-
-
-    # def save_ingredient(self):
-    #     filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Ingredients/' + self.name
-    #     pickle_out = open(filename, 'wb')
-    #     pickle.dump(self, pickle_out)
-    #     pickle_out.close()

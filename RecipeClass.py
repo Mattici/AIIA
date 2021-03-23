@@ -1,5 +1,4 @@
 import HelperFunctions
-import pickle
 
 
 class Recipe(object):
@@ -35,7 +34,6 @@ class Recipe(object):
         print('Protein: ' + str(self.protein))
         print('----------------------------------------------')
 
-    # need a remove and add new, and alter existing +/-
     def remove_ingredient_from_recipe(self, ingredient):
         self.rr.pop(ingredient)
         # self.save_recipe()
@@ -58,12 +56,6 @@ class Recipe(object):
         # self.save_recipe()
         self.to_string()
         return self
-
-    # def save_recipe(self):
-    #     filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Recipes/' + self.name
-    #     pickle_out = open(filename, 'wb')
-    #     pickle.dump(self, pickle_out)
-    #     pickle_out.close()
 
     def update_macros(self):
         self.cal = 0.0
