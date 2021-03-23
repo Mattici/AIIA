@@ -7,7 +7,7 @@ import HelperFunctions as hf
 
 class User(object):
 
-    def __init__(self, name=input('What is your name?\n'), pantry=None, cookbook=None, agenda=None, semesters=None):
+    def __init__(self, name='', pantry=None, cookbook=None, agenda=None, semesters=None):
         self.name = name
 
         if pantry is None:

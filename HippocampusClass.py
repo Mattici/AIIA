@@ -1,5 +1,5 @@
 import nltk
-from HelperFunctions import *
+import HelperFunctions as hf
 
 
 class Hippocampus(object):
@@ -43,18 +43,30 @@ class Hippocampus(object):
             print(context_clue + '\t\t(' + s.strip().strip(',') + ')')
 
     def add_basic_command_synonyms(self, command, syn):
-        self.commands.update({command: syn})
+        self.commands.get(command).append(syn)
+        # self.commands.update({command: syn})
         self.save_hippocampus()
 
     def add_basic_class_synonyms(self, class_name, syn):
-        self.classes.update({class_name: syn})
+        self.classes.get(class_name).append(syn)
+        # self.classes.update({class_name: syn})
         self.save_hippocampus()
 
+    # def add_to_classes(self, class_name, ):
+
+
+
+
+
+
     def save_hippocampus(self):
-        filename = '/OriginalBrainFiles/TheHippocampus'
-        pickle_out = open(filename, 'wb')
-        pickle.dump(self, pickle_out)
-        pickle_out.close()
+        bot = hf.load_current_bot()
+        bot.hippocampus = self
+        bot.sleep()
+        # filename = '/OriginalBrainFiles/TheHippocampus'
+        # pickle_out = open(filename, 'wb')
+        # pickle.dump(self, pickle_out)
+        # pickle_out.close()
 
     def has_context_clue(self, sentence):
         l = nltk.word_tokenize(sentence)
