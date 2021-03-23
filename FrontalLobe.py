@@ -15,7 +15,10 @@ class FrontalLobe(object):
         container = u.container
 
         if command == 'add':
-            s = 'add_new_' + class_name + '_to_' + container
+            if (class_name == 'bot') or (class_name == 'user'):
+                s = 'new_' + class_name
+            else:
+                s = 'add_new_' + class_name + '_to_' + container
             add_class = getattr(hf, s)
             l = []
             if not plural:

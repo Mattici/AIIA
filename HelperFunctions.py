@@ -1,6 +1,8 @@
 import inflect
 import pickle
 import os
+
+from BotClass import Bot
 from IngredientClass import Ingredient
 from RecipeClass import Recipe
 from AssignmentClass import Assignment
@@ -406,9 +408,18 @@ def is_plural(s):
 
 
 def new_user():
-    user = User()
+    name = input('What is your name?\n')
+    user = User(name=name)
     user.save_user_data()
     print('Switched ' + user.name + ' to current user')
+    return user
+
+
+def new_bot():
+    name = input('What is my name?\n')
+    bot = Bot(name=name)
+    bot.sleep()
+    return bot
 
 
 def load_user_from_meta(user):
@@ -454,3 +465,16 @@ def set_current_bot(bot):
     pickle.dump(bot, pickle_out)
     pickle_out.close()
     return bot
+
+
+def save_thing_somewhere(thing):
+    filename = root + '/DefaultBotData/TheHippocampus'
+    pickle_out = open(filename, 'wb')
+    pickle.dump(thing, pickle_out)
+    pickle_out.close()
+
+def load_the_hippocampus():
+    filename = root + '/DefaultBotData/TheHippocampus'
+    pickle_in = open(filename, 'rb')
+    t = pickle.load(pickle_in)
+    return t

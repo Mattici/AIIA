@@ -2,6 +2,7 @@
 
 
 from HelperFunctions import *
+from HippocampusClass import Hippocampus
 from UserClass import User
 
 if __name__ == '__main__':
@@ -10,29 +11,26 @@ if __name__ == '__main__':
 
     ######### left at working on change container methods in helperfunctions
 
-    # name = name = input('Who am I helping?\n')
-    # user = load_user_from_meta(name)
-    # set_current_user(user)
+    user = load_user_from_meta(input('Who am I helping?\n'))
+    set_current_user(user)
 
-    new_user()
+    bot = load_bot_from_meta('Mia')
+    bot.user_request()
 
-    mia = load_bot_from_meta('Mia')
-    mia.user_request()
-    # user.save_user_data()
+    # h.classes.update({'bot': ['bot']})
+    # h.classes.update({'user': ['user']})
+    # save_thing_somewhere(h)
+    # new_user()
 
-
-
-    # for thing in return_pantry():
-    #     print(thing)
-    # for thing in return_cookbook():
-    #     print(thing)
-    # for thing in return_agenda():
-    #     print(thing)
-    # for thing in return_semesters():
-    #     print(thing)
+    # bot = load_bot_from_meta(input('Which bot?\n'))
+    # set_current_bot(bot)
+    # bot.user_request()
 
 
 
-    user.to_string()
+
+
+
+
 
 #   Later add: serving sizes, vitamins, other nutrients

@@ -1,6 +1,6 @@
 import nltk
 
-from HelperFunctions import *
+import HelperFunctions as hf
 from FrontalLobe import *
 
 
@@ -32,7 +32,8 @@ class Understanding(object):
             for thing in self.for_context:
                 thing.to_string()
 
-    def understand(self, bot):
+    def understand(self):
+        bot = hf.load_current_bot()
         h = bot.hippocampus
         w = bot.wernickes_area
         u_stack = w.u_stack
@@ -64,15 +65,16 @@ class Understanding(object):
             self.for_context = prev_u.for_context
         # might need to be put i else statement
         else:
-            self.get_class_name(h=h)
+            self.get_class_name()
             self.get_plural_bool()
-            self.get_system_commands(h=h)
-            self.send_to_frontal_lobe(u=self, bot=bot)
+            self.get_system_commands()
+            self.send_to_frontal_lobe(u=self)
 
         u_stack.append(self)  ## adds understanding to wernickes area. Make sure to save bots brain (sleep) to
         # bot.
 
-    def send_to_frontal_lobe(self, u, bot):
+    def send_to_frontal_lobe(self, u):
+        bot = hf.load_current_bot()
         fl = bot.frontal_lobe
         h = bot.hippocampus
         l = []
@@ -117,8 +119,9 @@ class Understanding(object):
                     if word == j:
                         self.command = i
 
-    def get_class_name(self, h):
-        # h = load_the_hippocampus_from_meta()
+    def get_class_name(self):
+
+        h = hf.load_current_bot().hippocampus
         sentence = self.s
         l = nltk.word_tokenize(sentence)
         for word in l:
@@ -140,10 +143,11 @@ class Understanding(object):
 
     def get_plural_bool(self):
         s = self.og_class_name
-        self.plural = is_plural(s)
+        self.plural = hf.is_plural(s)
 
-    def get_system_commands(self, h):
-        # h = load_the_hippocampus_from_meta()
+    def get_system_commands(self):
+        bot = hf.load_current_bot()
+        h = bot.hippocampus
         sentence = self.s
         l = nltk.word_tokenize(sentence)
         for word in l:
