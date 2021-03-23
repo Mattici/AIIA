@@ -38,14 +38,14 @@ class Recipe(object):
     # need a remove and add new, and alter existing +/-
     def remove_ingredient_from_recipe(self, ingredient):
         self.rr.pop(ingredient)
-        self.save_recipe()
+        # self.save_recipe()
         self.to_string()
         return self
 
     def add_new_ingredient_to_recipe(self, ingredient):
         x = input('How many ' + ingredient + "'s do you want to add?\n")
         self.rr.update({ingredient: float(x)})
-        self.save_recipe()
+        # self.save_recipe()
         self.to_string()
         return self
 
@@ -55,15 +55,15 @@ class Recipe(object):
         new_val = x
         self.rr.update({ingredient: new_val})
         self.update_macros()
-        self.save_recipe()
+        # self.save_recipe()
         self.to_string()
         return self
 
-    def save_recipe(self):
-        filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Recipes/' + self.name
-        pickle_out = open(filename, 'wb')
-        pickle.dump(self, pickle_out)
-        pickle_out.close()
+    # def save_recipe(self):
+    #     filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Recipes/' + self.name
+    #     pickle_out = open(filename, 'wb')
+    #     pickle.dump(self, pickle_out)
+    #     pickle_out.close()
 
     def update_macros(self):
         self.cal = 0.0

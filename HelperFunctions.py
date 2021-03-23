@@ -429,7 +429,6 @@ def change_ingredient_in_pantry(ingredient):
 
 def change_recipe_in_cookbook(recipe):  # og, member
 
-    user = load_current_user()
     r = load_recipe_from_cookbook(recipe)
     og_r = r.name
     new_r = r
@@ -459,6 +458,36 @@ def change_recipe_in_cookbook(recipe):  # og, member
     load_current_user().save_user_data()
 
     return new_r
+
+def change_assignment_in_agenda(assignment):
+
+    a = load_assignment_from_agenda(assignment)
+    og_a = a.name
+    new_a = a
+    print("Which part of this assignment am I changing?\n")
+    l = ['course', 'name', 'description', 'due_date']
+    for i in l:
+        print(i)
+    member = input('\n')
+    new_data = input('What is the new ' + member + '?\n')
+
+    if member == 'name':
+        new_a.name = new_data
+    elif member == 'course':
+        new_a.course = new_data
+    elif member == 'due_date':
+        new_a.due_date = new_data
+    elif member == 'description':
+        new_a.description = new_data
+    remove_assignment_from_agenda(og_a)
+    load_current_user().add_assignment_to_agenda(new_a)
+    load_current_user().save_user_data()
+    return new_a
+
+
+
+
+
 
     ###### left here
 
@@ -545,52 +574,83 @@ def change_recipe_in_cookbook(recipe):  # og, member
 #     return new_r
 
 
-def change_assignment_in_meta(assignment):
-    print("Which part of this assignment am I changing?\n")
-    l = ['course', 'name', 'description', 'due_date']
+# def change_assignment_in_meta(assignment):
+#     print("Which part of this assignment am I changing?\n")
+#     l = ['course', 'name', 'description', 'due_date']
+#     for i in l:
+#         print(i)
+#     member = input('\n')
+#     new_data = input('What is the new ' + member + '?\n')
+#
+#     a = load_assignment_from_meta(assignment)
+#     og = a.name
+#     new_a = a
+#     if member == 'name':
+#         new_a.name = new_data
+#     elif member == 'course':
+#         new_a.course = new_data
+#     elif member == 'due_date':
+#         new_a.due_date = new_data
+#     elif member == 'description':
+#         new_a.description = new_data
+#     remove_assignment_from_meta(og)
+#     filename = root + '/Meta/Assignments/' + new_a.name
+#     pickle_out = open(filename, 'wb')
+#     pickle.dump(new_a, pickle_out)
+#     pickle_out.close()
+#     return new_a
+
+
+# def change_courselist_in_meta(courselist, member):
+#     cs = load_courselist_from_meta(courselist)
+#     og = cs.name
+#     new_cs = cs
+#     if member == 'name':
+#         new_cs.name = input('What is the new name?\n')
+#         remove_courselist_from_meta(og)
+#         filename = root + '/Meta/CourseLists/' + new_cs.name
+#         pickle_out = open(filename, 'wb')
+#         pickle.dump(new_cs, pickle_out)
+#         pickle_out.close()
+#         return new_cs
+#     else:
+#         x = input('Would you like to add or remove a class from this courselist?\n')
+#         if x == 'add':
+#             cs.add_new_course_to_courselist()
+#         elif x == 'remove':
+#             cs.remove_course_from_courselist()
+#         return cs
+
+def change_courselist_in_semesters(courselist):
+
+    cs = load_courselist_from_semesters(courselist)
+    og_cs = cs.name
+    new_cs = cs
+    print("Which part of this semester am I changing?\n")
+    l = ['name', 'courses']
     for i in l:
         print(i)
     member = input('\n')
-    new_data = input('What is the new ' + member + '?\n')
 
-    a = load_assignment_from_meta(assignment)
-    og = a.name
-    new_a = a
-    if member == 'name':
-        new_a.name = new_data
-    elif member == 'course':
-        new_a.course = new_data
-    elif member == 'due_date':
-        new_a.due_date = new_data
-    elif member == 'description':
-        new_a.description = new_data
-    remove_assignment_from_meta(og)
-    filename = root + '/Meta/Assignments/' + new_a.name
-    pickle_out = open(filename, 'wb')
-    pickle.dump(new_a, pickle_out)
-    pickle_out.close()
-    return new_a
-
-
-def change_courselist_in_meta(courselist, member):
-    cs = load_courselist_from_meta(courselist)
-    og = cs.name
-    new_cs = cs
     if member == 'name':
         new_cs.name = input('What is the new name?\n')
-        remove_courselist_from_meta(og)
-        filename = root + '/Meta/CourseLists/' + new_cs.name
-        pickle_out = open(filename, 'wb')
-        pickle.dump(new_cs, pickle_out)
-        pickle_out.close()
+        remove_courselist_from_semesters(og_cs)
+        load_current_user().add_courselist_to_semesters(new_cs)
+        load_current_user().save_user_data()
         return new_cs
+
     else:
-        x = input('Would you like to add or remove a class from this courselist?\n')
+        x = input('Would you like to add or remove a class from this semester?\n')
         if x == 'add':
-            cs.add_new_course_to_courselist()
+            cs.add_course_to_courselist()
         elif x == 'remove':
             cs.remove_course_from_courselist()
+
+        load_current_user().add_courselist_to_semesters(cs)
+        load_current_user().save_user_data()
         return cs
+
+
 
 
 ####################################### Helpers #######################################

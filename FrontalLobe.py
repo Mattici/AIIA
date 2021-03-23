@@ -107,15 +107,10 @@ class FrontalLobe(object):
                 ret = hf.change_recipe_in_cookbook(og)
 
             elif class_name == 'assignment':
-                ret = hf.change_assignment_in_meta(og)
-
+                ret = hf.change_assignment_in_agenda(og)
 
             elif class_name == 'courselist':
-                l = ['name', 'courses']
-                for i in l:
-                    print(i)
-                member = input('\n')
-                ret = hf.change_courselist_in_meta(og, member)
+                ret = hf.change_courselist_in_semesters(og)
             a.append(ret)
             return a
 

@@ -33,8 +33,8 @@ class Ingredient(object):
         print('----------------------------------------------')
 
 
-    def save_ingredient(self):
-        filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Ingredients/' + self.name
-        pickle_out = open(filename, 'wb')
-        pickle.dump(self, pickle_out)
-        pickle_out.close()
+    # def save_ingredient(self):
+    #     filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Ingredients/' + self.name
+    #     pickle_out = open(filename, 'wb')
+    #     pickle.dump(self, pickle_out)
+    #     pickle_out.close()

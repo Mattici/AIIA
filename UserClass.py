@@ -89,7 +89,7 @@ class User(object):
         self.save_user_data()
         return a
 
-    def add_semester_to_semesters(self, s):
+    def add_courselist_to_semesters(self, s):
         self.semesters.append(s)
         self.save_user_data()
         return s
