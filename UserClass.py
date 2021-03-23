@@ -81,14 +81,17 @@ class User(object):
 
     def add_recipe_to_cookbook(self, r):
         self.cookbook.append(r)
+        self.save_user_data()
         return r
 
     def add_assignment_to_agenda(self, a):
         self.agenda.append(a)
+        self.save_user_data()
         return a
 
     def add_semester_to_semesters(self, s):
         self.semesters.append(s)
+        self.save_user_data()
         return s
 
     def save_user_data(self):

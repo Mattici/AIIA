@@ -104,7 +104,7 @@ class FrontalLobe(object):
                 ret = hf.change_ingredient_in_pantry(og)
 
             elif class_name == 'recipe':
-                ret = hf.change_recipe_in_meta(og)
+                ret = hf.change_recipe_in_cookbook(og)
 
             elif class_name == 'assignment':
                 ret = hf.change_assignment_in_meta(og)
@@ -116,7 +116,8 @@ class FrontalLobe(object):
                     print(i)
                 member = input('\n')
                 ret = hf.change_courselist_in_meta(og, member)
-            return ret
+            a.append(ret)
+            return a
 
         elif system_command == 'help':
             hf.load_bot_from_meta('Mia')

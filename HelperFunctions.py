@@ -177,8 +177,11 @@ def load_courselist_from_semesters(courselist):
             return cs
         else:
             print(courselist + ' is not one of your semesters')
+
+
+
 # def load_ingredient_from_meta(ingredient):
-#     filename = root + '/Meta/Ingredients/' + ingredient
+#     filename = '/Users/mattcarter/Documents/UVA/Spring2021/pythonProject/Ingredients/' + ingredient
 #     pickle_in = open(filename, 'rb')
 #     i = pickle.load(pickle_in)
 #     return i
@@ -420,10 +423,42 @@ def change_ingredient_in_pantry(ingredient):
         elif member == 'protein':
             new_i.protein = new_data
     remove_ingredient_from_pantry(og_i)
-    user.add_ingredient_to_pantry(new_i)
-    user.save_user_data()
+    load_current_user().add_ingredient_to_pantry(new_i)
+    load_current_user().save_user_data()
     return new_i
 
+def change_recipe_in_cookbook(recipe):  # og, member
+
+    user = load_current_user()
+    r = load_recipe_from_cookbook(recipe)
+    og_r = r.name
+    new_r = r
+
+    print("Which part of this recipe am I changing?\n")
+    l = ['name', 'ingredients_list']
+    for i in l:
+        print(i)
+    member = input('\n')
+    # new_data = input('What is the new ' + member + '?\n')
+
+    if member == 'name':
+        new_r.name = input('What is the new ' + member + '?\n')
+        remove_recipe_from_cookbook(og_r)
+    else:
+        x = input('Am I adding, removing, or changing an ingredient of this recipe?\n')
+        i = input('Which ingredient am I ' + x + '\n')
+        if x == 'adding':
+            return new_r.add_new_ingredient_to_recipe(i)
+        elif x == 'removing':
+            return new_r.remove_ingredient_from_recipe(i)
+        elif x == 'changing':
+            return new_r.alter_ingredient_of_recipe(i)
+
+    remove_recipe_from_cookbook(og_r)
+    load_current_user().add_recipe_to_cookbook(new_r)
+    load_current_user().save_user_data()
+
+    return new_r
 
     ###### left here
 
@@ -479,35 +514,35 @@ def change_ingredient_in_pantry(ingredient):
 #     return new_i
 
 
-def change_recipe_in_meta(recipe):  # og, member
-    print("Which part of this recipe am I changing?\n")
-    l = ['name', 'ingredients_list']
-    for i in l:
-        print(i)
-    member = input('\n')
-
-    r = load_recipe_from_meta(recipe)
-    og = r.name
-    new_r = r
-
-    if member == 'name':
-        new_r.name = input('What is the new ' + member + '?\n')
-        remove_recipe_from_meta(og)
-    else:
-        x = input('Am I adding, removing, or changing an ingredient of this recipe?\n')
-        i = input('Which ingredient am I ' + x + '\n')
-        if x == 'adding':
-            return new_r.add_new_ingredient_to_recipe(i)
-        elif x == 'removing':
-            return new_r.remove_ingredient_from_recipe(i)
-        elif x == 'changing':
-            return new_r.alter_ingredient_of_recipe(i)
-
-    filename = root + '/Meta/Recipes/' + new_r.name
-    pickle_out = open(filename, 'wb')
-    pickle.dump(new_r, pickle_out)
-    pickle_out.close()
-    return new_r
+# def change_recipe_in_meta(recipe):  # og, member
+#     print("Which part of this recipe am I changing?\n")
+#     l = ['name', 'ingredients_list']
+#     for i in l:
+#         print(i)
+#     member = input('\n')
+#
+#     r = load_recipe_from_meta(recipe)
+#     og = r.name
+#     new_r = r
+#
+#     if member == 'name':
+#         new_r.name = input('What is the new ' + member + '?\n')
+#         remove_recipe_from_meta(og)
+#     else:
+#         x = input('Am I adding, removing, or changing an ingredient of this recipe?\n')
+#         i = input('Which ingredient am I ' + x + '\n')
+#         if x == 'adding':
+#             return new_r.add_new_ingredient_to_recipe(i)
+#         elif x == 'removing':
+#             return new_r.remove_ingredient_from_recipe(i)
+#         elif x == 'changing':
+#             return new_r.alter_ingredient_of_recipe(i)
+#
+#     filename = root + '/Meta/Recipes/' + new_r.name
+#     pickle_out = open(filename, 'wb')
+#     pickle.dump(new_r, pickle_out)
+#     pickle_out.close()
+#     return new_r
 
 
 def change_assignment_in_meta(assignment):

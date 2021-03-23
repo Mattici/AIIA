@@ -52,7 +52,7 @@ class Recipe(object):
     def alter_ingredient_of_recipe(self, ingredient):
         x = float(input('What is the new amount of ' + ingredient + "'s ?\n"))
         old_val = float(self.rr.get(ingredient))
-        new_val = old_val + x
+        new_val = x
         self.rr.update({ingredient: new_val})
         self.update_macros()
         self.save_recipe()
@@ -76,7 +76,7 @@ class Recipe(object):
         self.sugar = 0.0
         self.protein = 0.0
         for i in self.rr.keys():
-            ingredient = HelperFunctions.load_ingredient_from_meta(i)
+            ingredient = HelperFunctions.load_ingredient_from_pantry(i)
             x = float(self.rr.get(i))
             self.cal += x * ingredient.cal
             self.tot_fat += x * ingredient.tot_fat
