@@ -70,7 +70,9 @@ class Understanding(object):
             self.get_system_commands()
             self.send_to_frontal_lobe(u=self)
 
-        u_stack.append(self)  ## adds understanding to wernickes area. Make sure to save bots brain (sleep) to
+        bot.wernickes_area.remember_short_term(self)
+        bot.sleep()
+        # u_stack.append(self)  ## adds understanding to wernickes area. Make sure to save bots brain (sleep) to
         # bot.
 
     def send_to_frontal_lobe(self, u):

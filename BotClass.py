@@ -32,8 +32,6 @@ class Bot(object):
             line = line.rstrip().lower()
             u = Understanding(s=line)
             u.understand()
-
-
             print('\nHow else can I help you?\n')
 
     def sleep(self):
@@ -43,5 +41,6 @@ class Bot(object):
         pickle_out = open(filename, 'wb')
         pickle.dump(self, pickle_out)
         pickle_out.close()
+        hf.set_current_bot(self)
 
 
