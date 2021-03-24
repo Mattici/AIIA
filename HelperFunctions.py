@@ -379,9 +379,12 @@ def change_courselist_in_semesters(courselist):
     else:
         x = input('Would you like to add or remove a class from this semester?\n')
         if x == 'add':
-            cs.add_course_to_courselist()
+            new_cs.add_course_to_courselist()
         elif x == 'remove':
-            cs.remove_course_from_courselist()
+            new_cs.remove_course_from_courselist()
+
+        remove_courselist_from_semesters(og_cs)
+
 
         load_current_user().add_courselist_to_semesters(cs)
         load_current_user().save_user_data()
