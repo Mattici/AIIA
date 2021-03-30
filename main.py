@@ -9,12 +9,19 @@ if __name__ == '__main__':
     #    next need to add more data to Hippocampus:
     #     * same_command: [again, another]  do the command of previous understanding
 
+    #
+    # for x in range (10):
+    #     print(x)
+
+
+
     ######### left at working on change container methods in helperfunctions
 
     user = load_user_from_meta(input('Who am I helping?\n'))
     set_current_user(user)
 
-    bot = load_bot_from_meta('Mia')
+    bot = load_bot_from_meta(input('Which bot?'))
+    set_current_bot(bot)
     bot.user_request()
 
     # h.classes.update({'bot': ['bot']})

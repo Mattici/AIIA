@@ -95,4 +95,5 @@ class FrontalLobe(object):
             return a
 
         elif system_command == 'help':
-            hf.load_bot_from_meta('Mia')
+            hf.load_current_bot()
+            # hf.load_bot_from_meta('Mia')
