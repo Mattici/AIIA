@@ -17,11 +17,14 @@ if __name__ == '__main__':
 
     ######### left at working on change container methods in helperfunctions
 
-    user = load_user_from_meta(input('Who am I helping?\n'))
+    # user = load_user_from_meta(input('Who am I helping?\n'))
+    user = load_user_from_meta('Matt')
     set_current_user(user)
 
-    bot = load_bot_from_meta(input('Which bot?'))
+    # bot = load_bot_from_meta(input('Which bot?\n'))
+    bot = load_bot_from_meta('Mia')
     set_current_bot(bot)
+
     bot.user_request()
 
     # h.classes.update({'bot': ['bot']})

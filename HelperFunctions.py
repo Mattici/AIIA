@@ -1,3 +1,6 @@
+import functools
+import operator
+
 import inflect
 import pickle
 import os
@@ -102,6 +105,7 @@ def load_ingredient_from_pantry(ingredient):
     for i in user.pantry:
         if i.name == ingredient:
             return i
+            break
     else:
         print('There are no ' + ingredient + 's in your pantry')
 
@@ -111,6 +115,7 @@ def load_recipe_from_cookbook(recipe):
     for r in user.cookbook:
         if r.name == recipe:
             return r
+            break
     else:
         print("You don't have " + recipe + "in your cookbook")
 
@@ -120,8 +125,9 @@ def load_assignment_from_agenda(assignment):
     for a in user.agenda:
         if a.name == assignment:
             return a
-        else:
-            print(assignment + ' is not in your agenda')
+            break
+    else:
+        print(assignment + ' is not in your agenda')
 
 
 def load_courselist_from_semesters(courselist):
@@ -129,7 +135,9 @@ def load_courselist_from_semesters(courselist):
     for cs in user.semesters:
         if courselist == cs.name:
             return cs
-    print(courselist + ' is not one of your semesters')
+            break
+    else:
+        print(courselist + ' is not one of your semesters')
 
 
 ####################################### Get Lists #######################################
@@ -138,11 +146,13 @@ def load_courselist_from_semesters(courselist):
 
 ####################################### Get Lists #######################################
 
-
 def return_pantry():
     l = []
     for i in load_current_user().pantry:
         l.append(i)
+    # sorted_l = l.sort(key=lambda i: i.name)
+    # print(l)
+    # print(sorted_l)
     return l
 
 
@@ -176,28 +186,36 @@ def return_semesters():
 
 def pantry_dump():
     print('\nHere is your pantry:\n----------------------------------------------')
-    for i in return_pantry():
+    l = return_pantry()
+    sorted_l = sorted(l, key=lambda i: i.name)
+    for i in sorted_l:
         print(i.name)
     print('----------------------------------------------')
 
 
 def cookbook_dump():
     print('\nHere is your cookbook:\n----------------------------------------------')
-    for r in return_cookbook():
+    l = return_cookbook()
+    sorted_l = sorted(l, key=lambda r: r.name)
+    for r in sorted_l:
         print(r.name)
     print('----------------------------------------------')
 
 
 def agenda_dump():
     print('\nHere is your agenda:\n----------------------------------------------')
-    for a in return_agenda():
+    l = return_agenda()
+    sorted_l = sorted(l, key=lambda a: a.name)
+    for a in sorted_l:
         print(a.name)
     print('----------------------------------------------')
 
 
 def semesters_dump():
     print('\nHere are your semesters:\n----------------------------------------------')
-    for cs in return_semesters():
+    l = return_semesters()
+    sorted_l = sorted(l, key=lambda cs: cs.name)
+    for cs in sorted_l:
         print(cs.name)
     print('----------------------------------------------')
 
@@ -319,15 +337,28 @@ def change_recipe_in_cookbook(recipe):  # og, member
         x = input('Am I adding, removing, or changing an ingredient of this recipe?\n')
         i = input('Which ingredient am I ' + x + '\n')
         if x == 'adding':
-            return new_r.add_new_ingredient_to_recipe(i)
+            new_r = new_r.add_new_ingredient_to_recipe(i)
+            remove_recipe_from_cookbook(og_r)
+            load_current_user().add_recipe_to_cookbook(new_r)
+            load_current_user().save_user_data()
+            return new_r
+            # return new_r.add_new_ingredient_to_recipe(i)
         elif x == 'removing':
-            return new_r.remove_ingredient_from_recipe(i)
+            new_r = new_r.remove_ingredient_from_recipe(i)
+            remove_recipe_from_cookbook(og_r)
+            load_current_user().add_recipe_to_cookbook(new_r)
+            load_current_user().save_user_data()
+            return new_r
+            # return new_r.remove_ingredient_from_recipe(i)
         elif x == 'changing':
-            return new_r.alter_ingredient_of_recipe(i)
+            new_r = new_r.alter_ingredient_of_recipe(i)
+            remove_recipe_from_cookbook(og_r)
+            load_current_user().add_recipe_to_cookbook(new_r)
+            load_current_user().save_user_data()
+            return new_r
+            # return new_r.alter_ingredient_of_recipe(i)
 
-    remove_recipe_from_cookbook(og_r)
-    load_current_user().add_recipe_to_cookbook(new_r)
-    load_current_user().save_user_data()
+
 
     return new_r
 
@@ -384,11 +415,9 @@ def change_courselist_in_semesters(courselist):
             new_cs.remove_course_from_courselist()
 
         remove_courselist_from_semesters(og_cs)
-
-
-        load_current_user().add_courselist_to_semesters(cs)
+        load_current_user().add_courselist_to_semesters(new_cs)
         load_current_user().save_user_data()
-        return cs
+        return new_cs
 
 
 ####################################### Other Helpers #######################################
@@ -475,6 +504,7 @@ def save_thing_somewhere(thing):
     pickle_out = open(filename, 'wb')
     pickle.dump(thing, pickle_out)
     pickle_out.close()
+
 
 def load_the_hippocampus():
     filename = root + '/DefaultBotData/TheHippocampus'

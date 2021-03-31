@@ -36,14 +36,12 @@ class Recipe(object):
 
     def remove_ingredient_from_recipe(self, ingredient):
         self.rr.pop(ingredient)
-        # self.save_recipe()
         self.to_string()
         return self
 
     def add_new_ingredient_to_recipe(self, ingredient):
         x = input('How many ' + ingredient + "'s do you want to add?\n")
         self.rr.update({ingredient: float(x)})
-        # self.save_recipe()
         self.to_string()
         return self
 
@@ -53,7 +51,6 @@ class Recipe(object):
         new_val = x
         self.rr.update({ingredient: new_val})
         self.update_macros()
-        # self.save_recipe()
         self.to_string()
         return self
 

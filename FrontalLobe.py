@@ -40,8 +40,7 @@ class FrontalLobe(object):
             dumper = getattr(hf, s)
             dumper()  # dump list
             if not plural:  # specify the class_name in singular
-                print('Which ' + class_name + ' would you like to view?\n')
-                t = input()
+                t = input('Which ' + class_name + ' would you like to view?\n')
                 s = 'load_' + class_name + '_from_' + container
                 thing_viewer = getattr(hf, s)
                 thing = thing_viewer(t)
