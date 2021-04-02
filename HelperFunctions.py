@@ -24,32 +24,123 @@ root = os.getcwd()
 
 def add_new_ingredient_to_pantry():
     user = load_current_user()
-    i = Ingredient(
-        name=input('What is the ingredient? '), serving_size=float(input('Serving size? ')),
-        cal=float(input('How many calories? ')), tot_fat=float(input('What is the total fat? ')),
-        sat_fat=float(input('What is the saturated fat? ')), trans_fat=float(input('What is the trans fat? ')),
-        sodium=float(input('How much sodium? ')), carbs=float(input('How many carbs? ')),
-        fiber=float(input('How much fiber? ')),
-        sugar=float(input('How much sugar? ')), protein=float(input('How much protein? '))
-    )
+    name = input('What is the ingredient? ')
+    for i in range(3):
+        try:
+            serving_size = float(input('Serving size? '))
+        except ValueError:
+            print("I usually understand that as a number\n")
+        else:
+            break
+    for i in range(3):
+        try:
+            cal = float(input('How many calories? '))
+            break
+        except ValueError:
+            print("I usually understand that as a number\n")
+    for i in range(3):
+        try:
+            tot_fat = float(input('What is the total fat? '))
+            break
+        except ValueError:
+            print("I usually understand that as a number\n")
+            continue
+    for i in range(3):
+        try:
+            sat_fat = float(input('What is the saturated fat? '))
+            break
+        except ValueError:
+            print("I usually understand that as a number\n")
+            continue
 
-    user.pantry.append(i)
-    user.save_user_data()
-    return i
+    for i in range(3):
+        try:
+            trans_fat = float(input('What is the trans fat? '))
+            break
+        except ValueError:
+            print("I usually understand that as a number\n")
+            continue
+
+    for i in range(3):
+        try:
+            sodium = float(input('How much sodium? '))
+            break
+        except ValueError:
+            print("I usually understand that as a number\n")
+            continue
+
+    for i in range(3):
+        try:
+            carbs = float(input('How many carbs? '))
+            break
+        except ValueError:
+            print("I usually understand that as a number\n")
+            continue
+
+    for i in range(3):
+        try:
+            fiber = float(input('How much fiber? '))
+            break
+        except ValueError:
+            print("I usually understand that as a number\n")
+            continue
+
+    for i in range(3):
+        try:
+            sugar = float(input('How much sugar? '))
+            break
+        except ValueError:
+            print("I usually understand that as a number\n")
+            continue
+
+    for i in range(3):
+        try:
+            protein = float(input('How much protein? '))
+            i = Ingredient(
+                name=name, serving_size=serving_size, cal=cal, tot_fat=tot_fat, sat_fat=sat_fat, trans_fat=trans_fat,
+                sodium=sodium, carbs=carbs, fiber=fiber, sugar=sugar, protein=protein
+            )
+            user.pantry.append(i)
+            user.save_user_data()
+            return i
+        except ValueError:
+            print("I usually understand that as a number\n")
+            continue
+
+
+
 
 
 def add_new_recipe_to_cookbook():
     user = load_current_user()
+    name = input('What is the recipe? ').replace(' ', '_')
     r = Recipe(
-        name=input('What is the recipe(no spaces)? ')
+        name=name
     )
-    ingredients_string = input('Enter the ingredients of the recipe followed by spaces: ')
-    s = ingredients_string.split()
+
+    while True:
+        try:
+            ingredients_string = input('Enter the ingredients of the recipe followed by spaces: ')
+            s = ingredients_string.split()
+            exit_key = False
+            for i in s:
+                if load_ingredient_from_pantry(i) in load_current_user().pantry:
+                    exit_key = True
+                    break ## left here, need to end while loop here
+
+
+        except:
+            print("Let's try again\n")
+            continue
+        if exit_key:
+            break
+
+
     print('For each ingredient listed, enter the amount of servings for recipe. ')
     for i in s:
         x = float(input('How many ' + i + "'s: "))
-        r.rr.update({i: x})
         ingredient = load_ingredient_from_pantry(i)
+        r.rr.update({ingredient: x})
         r.cal += x * ingredient.cal
         r.tot_fat += x * ingredient.tot_fat
         r.sat_fat += x * ingredient.sat_fat
@@ -59,10 +150,10 @@ def add_new_recipe_to_cookbook():
         r.fiber += x * ingredient.fiber
         r.sugar += x * ingredient.sugar
         r.protein += x * ingredient.protein
-
-    user.cookbook.append(r)
-    user.save_user_data()
-    return r
+    else:
+        user.cookbook.append(r)
+        user.save_user_data()
+        return r
 
 
 def add_new_assignment_to_agenda():
@@ -95,7 +186,7 @@ def add_new_courselist_to_semesters():
 
 ####################################### Loads #######################################
 
-#####                     Loads class_name from container                       #####
+#####                     Loaders class_name from container                       #####
 
 ####################################### Loads #######################################
 

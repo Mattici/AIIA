@@ -15,14 +15,22 @@ if __name__ == '__main__':
 
 
 
+    ## work list
+    ## exit system
+    ## context needs to get updated each request
+    ## try catches for each input (thats not how i usually understand those)
+
     ######### left at working on change container methods in helperfunctions
 
-    # user = load_user_from_meta(input('Who am I helping?\n'))
-    user = load_user_from_meta('Matt')
+
+
+
+    user = load_user_from_meta(input('Who am I helping?\n'))
+    # user = load_user_from_meta('Matt')
     set_current_user(user)
 
-    # bot = load_bot_from_meta(input('Which bot?\n'))
-    bot = load_bot_from_meta('Mia')
+    bot = load_bot_from_meta(input('Which bot?\n'))
+    # bot = load_bot_from_meta('Mia')
     set_current_bot(bot)
 
     bot.user_request()
