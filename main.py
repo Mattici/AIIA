@@ -22,27 +22,17 @@ if __name__ == '__main__':
 
     ######### left at working on change container methods in helperfunctions
 
+    matt = load_user_from_meta('Matt')
+    set_current_user(matt)
+
+    mia = load_bot_from_meta('Mia')
+    set_current_bot(mia)
 
 
 
-    user = load_user_from_meta(input('Who am I helping?\n'))
-    # user = load_user_from_meta('Matt')
-    set_current_user(user)
+    mia.user_request()
 
-    bot = load_bot_from_meta(input('Which bot?\n'))
-    # bot = load_bot_from_meta('Mia')
-    set_current_bot(bot)
 
-    bot.user_request()
-
-    # h.classes.update({'bot': ['bot']})
-    # h.classes.update({'user': ['user']})
-    # save_thing_somewhere(h)
-    # new_user()
-
-    # bot = load_bot_from_meta(input('Which bot?\n'))
-    # set_current_bot(bot)
-    # bot.user_request()
 
 
 

@@ -184,6 +184,9 @@ def add_new_courselist_to_semesters():
     return s
 
 
+# def add_new_synonym_to_hippocampus():
+
+
 ####################################### Loads #######################################
 
 #####                     Loaders class_name from container                       #####
@@ -572,7 +575,7 @@ def set_current_user(user):
     pickle.dump(user, pickle_out)
     pickle_out.close()
 
-    return user
+    # return user
 
 
 def load_current_bot():
@@ -587,7 +590,7 @@ def set_current_bot(bot):
     pickle_out = open(filename, 'wb')
     pickle.dump(bot, pickle_out)
     pickle_out.close()
-    return bot
+    # return bot
 
 
 def save_thing_somewhere(thing):

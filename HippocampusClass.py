@@ -2,16 +2,32 @@ import nltk
 import HelperFunctions as hf
 
 
+# import BotClass as B
+
+
 class Hippocampus(object):
-    def __init__(self, classes=None, commands=None, system_commands=None, context_clues=None):
+    def __init__(self, classes=None, commands=None, system_commands=None, context_clues=None,
+                 class_sets=None, command_sets=None, context_clue_sets=None):
         if classes is None:
-            self.classes = {}  # each member: class_name: [synonyms]
+            self.classes = {'ingredient': {'ingredient'},
+                            'recipe': {'recipe'},
+                            'assignment': {'assignment'},
+                            'courselist': {'courselist'},
+                            'user': {'user'},
+                            'bot': {'bot'}}
+            # 'synonym': {'synonym'}}# each member: class_name: [synonyms]
         if commands is None:
-            self.commands = {}  # each member: command_tag: [synonyms]
+            self.commands = {'add': {'add'},
+                             'remove': {'remove'},
+                             'change': {'change'},
+                             'view': {'view'},
+                             'teach': {'teach'}}  # each member: command_tag: [synonyms]
         if system_commands is None:
-            self.system_commands = {}
+            self.system_commands = {'help': {'help'},
+                                    'exit': {'exit'}}
         if context_clues is None:
-            self.context_clues = {}
+            self.context_clues = {'that': {'that'}}
+
 
     def to_string(self):
         print('\nI can...\n----------------------------------------------')
@@ -43,30 +59,30 @@ class Hippocampus(object):
             print(context_clue + '\t\t(' + s.strip().strip(',') + ')')
 
     def add_basic_command_synonyms(self, command, syn):
-        self.commands.get(command).append(syn)
-        # self.commands.update({command: syn})
+        self.commands.get(command).add(syn)
         self.save_hippocampus()
 
     def add_basic_class_synonyms(self, class_name, syn):
-        self.classes.get(class_name).append(syn)
-        # self.classes.update({class_name: syn})
+        self.classes.get(class_name).add(syn)
         self.save_hippocampus()
 
-    # def add_to_classes(self, class_name, ):
-
-
-
-
-
+    def remember_long_term(self, key, syn):
+        if key in self.classes.keys():
+            self.classes.get(key).add(syn)
+        elif key in self.commands.keys():
+            self.commands.get(key).add(syn)
+        elif key in self.system_commands.keys():
+            self.system_commands.get(key).add(syn)
+        elif key in self.context_clues.keys():
+            self.context_clues.get(key).add(syn)
+        self.save_hippocampus()
 
     def save_hippocampus(self):
+        new_h = self
         bot = hf.load_current_bot()
-        bot.hippocampus = self
+        bot.hippocampus = new_h
+        hf.set_current_bot(bot)
         bot.sleep()
-        # filename = '/OriginalBrainFiles/TheHippocampus'
-        # pickle_out = open(filename, 'wb')
-        # pickle.dump(self, pickle_out)
-        # pickle_out.close()
 
     def has_context_clue(self, sentence):
         l = nltk.word_tokenize(sentence)

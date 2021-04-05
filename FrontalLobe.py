@@ -93,6 +93,8 @@ class FrontalLobe(object):
             a.append(ret)
             return a
 
-        elif system_command == 'help':
-            hf.load_current_bot()
-            # hf.load_bot_from_meta('Mia')
+        elif command == 'teach':
+            syn = input('What word are you teaching me?\n')
+            key = input(syn + ' is a synonym for ?\n')
+            bot = hf.load_current_bot()
+            bot.hippocampus.remember_long_term(key, syn)
